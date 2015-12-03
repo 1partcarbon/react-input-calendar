@@ -234,6 +234,12 @@ module.exports = React.createClass({
         }
     },
 
+    keydown: function(e) {
+      if (e.key === "Enter") {
+        this.inputBlur(e);
+      }
+    },
+
     render: function () {
 
         // its ok for this.state.date to be null, but we should never
@@ -310,6 +316,7 @@ module.exports = React.createClass({
                     className="input-calendar-value"
                     value={this.state.inputValue}
                     onBlur={this.inputBlur}
+                    onKeyDown={this.keyDown}
                     onChange={this.changeDate}
                     onFocus={this.props.openOnInputFocus ? this.toggleClick : ''}
                     placeholder={this.props.placeholder}

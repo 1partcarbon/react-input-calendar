@@ -234,6 +234,12 @@ module.exports = React.createClass({displayName: "exports",
         }
     },
 
+    keydown: function(e) {
+      if (e.key === "Enter") {
+        this.inputBlur(e);
+      }
+    },
+
     render: function () {
 
         // its ok for this.state.date to be null, but we should never
@@ -245,27 +251,27 @@ module.exports = React.createClass({displayName: "exports",
         switch (this.state.currentView) {
             case 0:
                 view = React.createElement(DaysView, {
-                    date: calendarDate, 
-                    minDate: this.state.minDate, 
-                    maxDate: this.state.maxDate, 
-                    setDate: this.setDate, 
+                    date: calendarDate,
+                    minDate: this.state.minDate,
+                    maxDate: this.state.maxDate,
+                    setDate: this.setDate,
                     nextView: this.nextView});
                 break;
             case 1:
                 view = React.createElement(MonthsView, {
-                    date: calendarDate, 
-                    minDate: this.state.minDate, 
-                    maxDate: this.state.maxDate, 
-                    setDate: this.setDate, 
-                    nextView: this.nextView, 
+                    date: calendarDate,
+                    minDate: this.state.minDate,
+                    maxDate: this.state.maxDate,
+                    setDate: this.setDate,
+                    nextView: this.nextView,
                     prevView: this.prevView});
                 break;
             case 2:
                 view = React.createElement(YearsView, {
-                    date: calendarDate, 
-                    minDate: this.state.minDate, 
-                    maxDate: this.state.maxDate, 
-                    setDate: this.setDate, 
+                    date: calendarDate,
+                    minDate: this.state.minDate,
+                    maxDate: this.state.maxDate,
+                    setDate: this.setDate,
                     prevView: this.prevView});
                 break;
         }
@@ -275,11 +281,11 @@ module.exports = React.createClass({displayName: "exports",
           todayText = 'Heute';
 
         var calendar = !this.state.isVisible ? '' :
-            React.createElement("div", {className: "input-calendar-wrapper", onClick: this.calendarClick}, 
-                view, 
+            React.createElement("div", {className: "input-calendar-wrapper", onClick: this.calendarClick},
+                view,
                 React.createElement("span", {
-                  className: "today-btn" + (this.checkIfDateDisabled(moment().startOf('day')) ? " disabled" : ""), 
-                  onClick: this.todayClick}, 
+                  className: "today-btn" + (this.checkIfDateDisabled(moment().startOf('day')) ? " disabled" : ""),
+                  onClick: this.todayClick},
                   todayText
                 )
             );
@@ -304,20 +310,21 @@ module.exports = React.createClass({displayName: "exports",
         }
 
         return (
-            React.createElement("div", {className: "input-calendar"}, 
-                React.createElement("input", {type: "text", 
-                    id: this.props.inputFieldId, 
-                    className: "input-calendar-value", 
-                    value: this.state.inputValue, 
-                    onBlur: this.inputBlur, 
-                    onChange: this.changeDate, 
-                    onFocus: this.props.openOnInputFocus ? this.toggleClick : '', 
-                    placeholder: this.props.placeholder, 
-                    readOnly: readOnly}), 
+            React.createElement("div", {className: "input-calendar"},
+                React.createElement("input", {type: "text",
+                    id: this.props.inputFieldId,
+                    className: "input-calendar-value",
+                    value: this.state.inputValue,
+                    onBlur: this.inputBlur,
+                    onKeyDown={this.keyDown},
+                    onChange: this.changeDate,
+                    onFocus: this.props.openOnInputFocus ? this.toggleClick : '',
+                    placeholder: this.props.placeholder,
+                    readOnly: readOnly}),
 
-                React.createElement("span", {onClick: this.toggleClick, className: "icon-wrapper calendar-icon"}, 
+                React.createElement("span", {onClick: this.toggleClick, className: "icon-wrapper calendar-icon"},
                     React.createElement("i", {className: iconClass})
-                ), 
+                ),
                 calendar
             )
         );
